@@ -1,0 +1,188 @@
+import { useState } from 'react';
+import { Attendant, AttendanceStatus } from '@/types/invitation';
+import { Head, router } from '@inertiajs/react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { User, Calendar, CheckCircle, Clock, XCircle } from 'lucide-react';
+import { toast } from 'sonner';
+
+interface Props {
+    attendant: Attendant;
+    statusOptions: { name: string; value: string }[];
+}
+
+export default function AttendanceStatusForm({ attendant }: Props) {
+    const [selectedStatus, setSelectedStatus] = useState<AttendanceStatus | ''>('');
+    const [processing, setProcessing] = useState(false);
+
+    const statusConfig = {
+        coming: {
+            label: 'Coming',
+            description: 'I will definitely attend the event',
+            icon: CheckCircle,
+            color: 'text-green-600',
+            bgColor: 'bg-green-50 border-green-200',
+        },
+        maybe: {
+            label: 'Maybe',
+            description: 'I might attend, not sure yet',
+            icon: Clock,
+            color: 'text-yellow-600',
+            bgColor: 'bg-yellow-50 border-yellow-200',
+        },
+        not_coming: {
+            label: 'Not Coming',
+            description: 'I will not be able to attend',
+            icon: XCircle,
+            color: 'text-red-600',
+            bgColor: 'bg-red-50 border-red-200',
+        },
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!selectedStatus) {
+            toast.error('Please select your attendance status');
+            return;
+        }
+
+        setProcessing(true);
+
+        router.patch(`/status/${attendant.status_token}`, {
+            attendance_status: selectedStatus,
+        }, {
+            onSuccess: () => {
+                toast.success('Attendance status updated successfully!');
+            },
+            onError: () => {
+                toast.error('Failed to update status. Please try again.');
+                setProcessing(false);
+            },
+        });
+    };
+
+    return (
+        <>
+            <Head title={`Update Attendance - ${attendant.full_name}`} />
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+                <div className="w-full max-w-2xl space-y-6">
+                    {/* Header */}
+                    <div className="text-center space-y-4">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full">
+                            <User className="h-8 w-8 text-primary" />
+                        </div>
+                        <h1 className="text-4xl font-bold tracking-tight">Update Attendance</h1>
+                        <p className="text-xl text-muted-foreground">
+                            Hi {attendant.full_name}, please let us know your attendance status
+                        </p>
+                    </div>
+
+                    {/* Current Status */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <Calendar className="h-5 w-5" />
+                                Registration Details
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="grid gap-4 md:grid-cols-3">
+                                <div>
+                                    <p className="text-sm font-medium text-muted-foreground">Name</p>
+                                    <p className="font-medium">{attendant.full_name}</p>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium text-muted-foreground">VIP Status</p>
+                                    <Badge variant={attendant.vip_status === 'vip' ? 'default' : 'secondary'}>
+                                        {attendant.vip_status.toUpperCase()}
+                                    </Badge>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium text-muted-foreground">Current Status</p>
+                                    {attendant.attendance_status ? (
+                                        <Badge 
+                                            variant={
+                                                attendant.attendance_status === 'coming' ? 'default' :
+                                                attendant.attendance_status === 'maybe' ? 'secondary' : 'destructive'
+                                            }
+                                        >
+                                            {statusConfig[attendant.attendance_status].label}
+                                        </Badge>
+                                    ) : (
+                                        <Badge variant="outline">Not Set</Badge>
+                                    )}
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Status Selection */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Select Your Attendance Status</CardTitle>
+                            <CardDescription>
+                                Choose the option that best describes your attendance plans
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <RadioGroup 
+                                    value={selectedStatus} 
+                                    onValueChange={(value: AttendanceStatus) => setSelectedStatus(value)}
+                                    className="space-y-4"
+                                >
+                                    {Object.entries(statusConfig).map(([value, config]) => {
+                                        const IconComponent = config.icon;
+                                        return (
+                                            <div key={value} className={`border-2 rounded-lg p-4 cursor-pointer transition-all hover:shadow-md ${
+                                                selectedStatus === value 
+                                                    ? `${config.bgColor} border-current` 
+                                                    : 'border-border hover:border-primary/20'
+                                            }`}>
+                                                <Label 
+                                                    htmlFor={value} 
+                                                    className="flex items-center gap-4 cursor-pointer"
+                                                >
+                                                    <RadioGroupItem value={value} id={value} />
+                                                    <IconComponent className={`h-6 w-6 ${config.color}`} />
+                                                    <div className="flex-1">
+                                                        <p className="font-medium">{config.label}</p>
+                                                        <p className="text-sm text-muted-foreground">
+                                                            {config.description}
+                                                        </p>
+                                                    </div>
+                                                </Label>
+                                            </div>
+                                        );
+                                    })}
+                                </RadioGroup>
+
+                                <Button 
+                                    type="submit" 
+                                    disabled={processing || !selectedStatus}
+                                    className="w-full"
+                                    size="lg"
+                                >
+                                    {processing ? 'Updating...' : 'Update Attendance Status'}
+                                </Button>
+                            </form>
+                        </CardContent>
+                    </Card>
+
+                    {/* Help Text */}
+                    <Card>
+                        <CardContent className="pt-6">
+                            <p className="text-sm text-muted-foreground text-center">
+                                You can change your attendance status anytime before the event. 
+                                This helps us better plan for the celebration.
+                            </p>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+        </>
+    );
+}
