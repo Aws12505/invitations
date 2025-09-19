@@ -32,7 +32,7 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
 
     const handleToggleAttended = () => {
         if (!isAuthenticated) {
-            toast.error('Authentication required');
+            toast.error('المصادقة مطلوبة');
             return;
         }
 
@@ -41,12 +41,12 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
         router.patch(`/profile/${attendant.qr_token}/toggle-attended`, {}, {
             onSuccess: () => {
                 const message = !attendant.attended 
-                    ? `${attendant.full_name} marked as attended` 
-                    : `${attendant.full_name} marked as not attended`;
+                    ? `تم تسجيل ${attendant.full_name} كحاضر` 
+                    : `تم تسجيل ${attendant.full_name} كغير حاضر`;
                 toast.success(message);
             },
             onError: (errors) => {
-                toast.error(errors.auth || 'Failed to update attendance status');
+                toast.error(errors.auth || 'فشل في تحديث حالة الحضور');
             },
             onFinish: () => setProcessing(false),
         });
@@ -56,25 +56,25 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
         switch (status) {
             case 'coming':
                 return {
-                    label: 'Coming',
+                    label: 'سأحضر',
                     icon: CheckCircle,
                     className: 'text-green-600 bg-green-50 border-green-200',
                 };
             case 'maybe':
                 return {
-                    label: 'Maybe',
+                    label: 'ربما',
                     icon: Clock,
                     className: 'text-yellow-600 bg-yellow-50 border-yellow-200',
                 };
             case 'not_coming':
                 return {
-                    label: 'Not Coming',
+                    label: 'لن أحضر',
                     icon: XCircle,
                     className: 'text-red-600 bg-red-50 border-red-200',
                 };
             default:
                 return {
-                    label: 'No Response',
+                    label: 'لا يوجد رد',
                     icon: Clock,
                     className: 'text-gray-600 bg-gray-50 border-gray-200',
                 };
@@ -89,12 +89,12 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
             return (
                 <div className="flex items-center gap-2 text-muted-foreground">
                     <Armchair className="h-5 w-5" />
-                    <span>No chair assigned</span>
+                    <span>لم يتم تعيين كرسي</span>
                 </div>
             );
         }
 
-        const isVip = attendant.chair_number <= 250;
+        const isVip = false;
         return (
             <div className="flex items-center gap-3">
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
@@ -111,11 +111,8 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                         variant={isVip ? 'default' : 'secondary'}
                         className="text-lg px-3 py-1"
                     >
-                        Chair {attendant.chair_number}
+                        كرسي {attendant.chair_number}
                     </Badge>
-                    <p className="text-sm text-muted-foreground mt-1">
-                        {isVip ? 'VIP Section (Chairs 1-250)' : 'Regular Section (Chairs 251-360)'}
-                    </p>
                 </div>
             </div>
         );
@@ -123,17 +120,17 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
 
     return (
         <>
-            <Head title={`${attendant.full_name} - Wedding Invitation`} />
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:to-gray-800">
+            <Head title={`${attendant.full_name} - دعوة زفاف`} />
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:to-gray-800" dir="rtl">
                 {/* Header */}
                 <div className="bg-white dark:bg-gray-900 border-b shadow-sm">
                     <div className="max-w-4xl mx-auto px-4 py-6">
                         <div className="text-center">
                             <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                Wedding Celebration
+                                احتفال الزفاف
                             </h1>
                             <p className="text-xl text-muted-foreground mt-2">
-                                Guest Information
+                                معلومات الضيف
                             </p>
                         </div>
                     </div>
@@ -148,7 +145,7 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
                                         <User className="h-5 w-5" />
-                                        Guest Information
+                                        معلومات الضيف
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
@@ -159,36 +156,24 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                                         <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                                             {attendant.full_name}
                                         </h2>
-                                        <div className="flex items-center justify-center gap-2 mt-2">
-                                            <Badge 
-                                                variant={
-                                                    attendant.vip_status === 'vip' || attendant.vip_status === 'premium' 
-                                                        ? 'default' : 'secondary'
-                                                }
-                                                className="text-sm"
-                                            >
-                                                {attendant.vip_status === 'vip' && <Crown className="h-3 w-3 mr-1" />}
-                                                {attendant.vip_status.toUpperCase()} GUEST
-                                            </Badge>
-                                        </div>
                                     </div>
 
                                     <Separator />
 
                                     <div className="grid gap-4 md:grid-cols-2">
                                         <div>
-                                            <label className="text-sm font-medium text-muted-foreground">Phone Number</label>
+                                            <label className="text-sm font-medium text-muted-foreground">رقم الهاتف</label>
                                             <div className="flex items-center gap-2 mt-1">
                                                 <Phone className="h-4 w-4 text-muted-foreground" />
                                                 <span className="font-medium">{attendant.phone_number}</span>
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="text-sm font-medium text-muted-foreground">Registration Date</label>
+                                            <label className="text-sm font-medium text-muted-foreground">تاريخ التسجيل</label>
                                             <div className="flex items-center gap-2 mt-1">
                                                 <Calendar className="h-4 w-4 text-muted-foreground" />
                                                 <span className="font-medium">
-                                                    {new Date(attendant.created_at).toLocaleDateString()}
+                                                    {new Date(attendant.created_at).toLocaleDateString('ar-SA')}
                                                 </span>
                                             </div>
                                         </div>
@@ -196,7 +181,7 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
 
                                     {attendant.invitation_link && (
                                         <div>
-                                            <label className="text-sm font-medium text-muted-foreground">Invited By</label>
+                                            <label className="text-sm font-medium text-muted-foreground">مدعو من قبل</label>
                                             <div className="flex items-center gap-2 mt-1">
                                                 <Users className="h-4 w-4 text-muted-foreground" />
                                                 <span className="font-medium">{attendant.invitation_link.full_name}</span>
@@ -211,7 +196,7 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
                                         <Armchair className="h-5 w-5" />
-                                        Seating Assignment
+                                        ترتيب الجلوس
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
@@ -225,7 +210,7 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                             {/* RSVP Status */}
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>RSVP Status</CardTitle>
+                                    <CardTitle>حالة الرد</CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className={`p-4 rounded-lg border ${statusInfo.className}`}>
@@ -235,7 +220,7 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                                         </div>
                                         {attendant.attendance_status && (
                                             <p className="text-sm opacity-80">
-                                                Last updated: {new Date(attendant.updated_at).toLocaleDateString()}
+                                                آخر تحديث: {new Date(attendant.updated_at).toLocaleDateString('ar-SA')}
                                             </p>
                                         )}
                                     </div>
@@ -245,9 +230,9 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                             {/* Actual Attendance */}
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Event Attendance</CardTitle>
+                                    <CardTitle>حضور الحدث</CardTitle>
                                     <CardDescription>
-                                        Actual attendance status
+                                        حالة الحضور الفعلية
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
@@ -263,7 +248,7 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                                                 <UserX className="h-6 w-6" />
                                             )}
                                             <span className="text-lg font-semibold">
-                                                {attendant.attended ? 'Attended' : 'Not Attended'}
+                                                {attendant.attended ? 'حضر' : 'لم يحضر'}
                                             </span>
                                         </div>
                                     </div>
@@ -276,17 +261,15 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                                             variant={attendant.attended ? "outline" : "default"}
                                             className="w-full"
                                         >
-                                            <Shield className="h-4 w-4 mr-2" />
+                                            <Shield className="h-4 w-4 ml-2" />
                                             {processing 
-                                                ? 'Updating...'
-                                                : `Mark as ${attendant.attended ? 'Not Attended' : 'Attended'}`
+                                                ? 'جاري التحديث...'
+                                                : `تسجيل كـ ${attendant.attended ? 'غير حاضر' : 'حاضر'}`
                                             }
                                         </Button>
                                     )}
                                 </CardContent>
                             </Card>
-
-
                         </div>
                     </div>
                 </div>
@@ -295,7 +278,7 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                 <div className="bg-white dark:bg-gray-900 border-t mt-12">
                     <div className="max-w-4xl mx-auto px-4 py-8 text-center">
                         <p className="text-muted-foreground">
-                            We can't wait to celebrate with you!
+                            لا نطيق الصبر للاحتفال معك!
                         </p>
                     </div>
                 </div>

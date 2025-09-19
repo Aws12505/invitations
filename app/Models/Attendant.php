@@ -44,6 +44,9 @@ protected $appends = ['full_name', 'chair_section', 'qr_code_url'];
             if (!$model->status_token) {
                 $model->status_token = Str::random(32);
             }
+            if (!$model->qr_token) {
+                $model->qr_token = Str::random(64);
+            }
         });
     }
 

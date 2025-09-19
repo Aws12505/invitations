@@ -17,8 +17,8 @@ import {
 export default function InvitationNotFound() {
     return (
         <>
-            <Head title="Invitation Not Found" />
-            <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+            <Head title="الدعوة غير موجودة" />
+            <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4" dir="rtl">
                 <div className="w-full max-w-2xl space-y-6">
                     {/* Error Header */}
                     <div className="text-center space-y-4">
@@ -27,10 +27,10 @@ export default function InvitationNotFound() {
                         </div>
                         <div className="space-y-2">
                             <h1 className="text-4xl font-bold tracking-tight text-red-900 dark:text-red-100">
-                                Invitation Not Found
+                                الدعوة غير موجودة
                             </h1>
                             <p className="text-xl text-muted-foreground">
-                                We couldn't find the invitation you're looking for
+                                لم نتمكن من العثور على الدعوة التي تبحث عنها
                             </p>
                         </div>
                     </div>
@@ -40,28 +40,28 @@ export default function InvitationNotFound() {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2 text-red-900 dark:text-red-100">
                                 <Search className="h-5 w-5" />
-                                What went wrong?
+                                ما الذي حدث خطأ؟
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="text-red-800 dark:text-red-200">
-                                <p className="mb-3">This invitation link may not be working because:</p>
+                                <p className="mb-3">قد لا يعمل رابط الدعوة هذا بسبب:</p>
                                 <ul className="space-y-2 text-sm">
                                     <li className="flex items-start gap-2">
                                         <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 shrink-0"></span>
-                                        The invitation link has been deactivated by the organizers
+                                        تم إلغاء رابط الدعوة من قبل المنظمين
                                     </li>
                                     <li className="flex items-start gap-2">
                                         <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 shrink-0"></span>
-                                        The link was copied or typed incorrectly
+                                        تم نسخ الرابط أو كتابته بشكل خاطئ
                                     </li>
                                     <li className="flex items-start gap-2">
                                         <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 shrink-0"></span>
-                                        The invitation has expired or reached its limit
+                                        انتهت صلاحية الدعوة أو وصلت إلى حدها
                                     </li>
                                     <li className="flex items-start gap-2">
                                         <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 shrink-0"></span>
-                                        The event registration period has ended
+                                        انتهت فترة التسجيل للحدث
                                     </li>
                                 </ul>
                             </div>
@@ -76,9 +76,9 @@ export default function InvitationNotFound() {
                                     <Calendar className="h-8 w-8 text-muted-foreground" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-lg">Looking for an event invitation?</h3>
+                                    <h3 className="font-semibold text-lg">تبحث عن دعوة حدث؟</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        Event invitations are private links sent by organizers to specific people
+                                        دعوات الأحداث هي روابط خاصة يرسلها المنظمون لأشخاص محددين
                                     </p>
                                 </div>
                             </div>
@@ -90,10 +90,10 @@ export default function InvitationNotFound() {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <HelpCircle className="h-5 w-5" />
-                                How to get invited
+                                كيفية الحصول على دعوة
                             </CardTitle>
                             <CardDescription>
-                                Follow these steps to join the event
+                                اتبع هذه الخطوات للانضمام إلى الحدث
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -103,9 +103,9 @@ export default function InvitationNotFound() {
                                         1
                                     </div>
                                     <div className="flex-1">
-                                        <p className="font-medium mb-1">Check your messages</p>
+                                        <p className="font-medium mb-1">تحقق من رسائلك</p>
                                         <p className="text-sm text-muted-foreground">
-                                            Look for the original invitation in your email, messages, or social media
+                                            ابحث عن الدعوة الأصلية في بريدك الإلكتروني أو الرسائل أو وسائل التواصل الاجتماعي
                                         </p>
                                     </div>
                                 </div>
@@ -114,9 +114,9 @@ export default function InvitationNotFound() {
                                         2
                                     </div>
                                     <div className="flex-1">
-                                        <p className="font-medium mb-1">Contact the host</p>
+                                        <p className="font-medium mb-1">تواصل مع المضيف</p>
                                         <p className="text-sm text-muted-foreground">
-                                            Ask the person who invited you to send the link again
+                                            اطلب من الشخص الذي دعاك إرسال الرابط مرة أخرى
                                         </p>
                                     </div>
                                 </div>
@@ -125,9 +125,9 @@ export default function InvitationNotFound() {
                                         3
                                     </div>
                                     <div className="flex-1">
-                                        <p className="font-medium mb-1">Request an invitation</p>
+                                        <p className="font-medium mb-1">اطلب دعوة</p>
                                         <p className="text-sm text-muted-foreground">
-                                            If you know about the event, ask the organizers for an invitation link
+                                            إذا كنت تعرف عن الحدث، اطلب من المنظمين رابط دعوة
                                         </p>
                                     </div>
                                 </div>
@@ -136,9 +136,9 @@ export default function InvitationNotFound() {
                                         4
                                     </div>
                                     <div className="flex-1">
-                                        <p className="font-medium mb-1">Double-check the link</p>
+                                        <p className="font-medium mb-1">تحقق من الرابط مرة أخرى</p>
                                         <p className="text-sm text-muted-foreground">
-                                            Make sure the entire link was copied correctly, including any special characters
+                                            تأكد من نسخ الرابط كاملاً بشكل صحيح، بما في ذلك أي رموز خاصة
                                         </p>
                                     </div>
                                 </div>
@@ -151,13 +151,13 @@ export default function InvitationNotFound() {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2 text-blue-900 dark:text-blue-100">
                                 <Users className="h-5 w-5" />
-                                Pro Tip
+                                نصيحة مهمة
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
                             <p className="text-sm text-blue-800 dark:text-blue-200">
-                                Invitation links are unique and personal. They can't be guessed or found by searching. 
-                                You need to receive one directly from someone who has permission to invite guests.
+                                روابط الدعوة فريدة وشخصية. لا يمكن تخمينها أو العثور عليها بالبحث. 
+                                تحتاج إلى تلقي واحدة مباشرة من شخص لديه إذن لدعوة الضيوف.
                             </p>
                         </CardContent>
                     </Card>
@@ -169,16 +169,16 @@ export default function InvitationNotFound() {
                             variant="outline"
                             className="flex-1"
                         >
-                            <ArrowLeft className="h-4 w-4 mr-2" />
-                            Go Back
+                            <ArrowLeft className="h-4 w-4 ml-2" />
+                            العودة
                         </Button>
                         <Button 
                             onClick={() => window.location.reload()}
                             variant="outline"
                             className="flex-1"
                         >
-                            <Clock className="h-4 w-4 mr-2" />
-                            Try Again
+                            <Clock className="h-4 w-4 ml-2" />
+                            حاول مرة أخرى
                         </Button>
                     </div>
 
@@ -188,9 +188,9 @@ export default function InvitationNotFound() {
                             <div className="text-center space-y-3">
                                 <Mail className="h-6 w-6 text-muted-foreground mx-auto" />
                                 <div>
-                                    <p className="text-sm font-medium">Need Help?</p>
+                                    <p className="text-sm font-medium">تحتاج مساعدة؟</p>
                                     <p className="text-xs text-muted-foreground mt-1">
-                                        Contact the event organizers if you believe you should have access to this invitation
+                                        تواصل مع منظمين الحدث إذا كنت تظن أنه يجب أن يكون لديك حق الوصول إلى هذا الرابط
                                     </p>
                                 </div>
                             </div>

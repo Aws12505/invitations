@@ -29,7 +29,7 @@ export default function InvitationSuccess({ attendant, statusUrl }: Props) {
                             Registration Successful!
                         </h1>
                         <p className="text-xl text-muted-foreground">
-                            Welcome to the celebration, {attendant.full_name}
+                            Welcome to Suwayda Event, {attendant.full_name}
                         </p>
                     </div>
 
@@ -53,12 +53,6 @@ export default function InvitationSuccess({ attendant, statusUrl }: Props) {
                                         <Phone className="h-4 w-4" />
                                         {attendant.phone_number}
                                     </p>
-                                </div>
-                                <div>
-                                    <p className="text-sm font-medium text-muted-foreground">VIP Status</p>
-                                    <Badge variant={attendant.vip_status === 'vip' ? 'default' : 'secondary'}>
-                                        {attendant.vip_status.toUpperCase()}
-                                    </Badge>
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-muted-foreground">Registration Date</p>
@@ -131,9 +125,9 @@ export default function InvitationSuccess({ attendant, statusUrl }: Props) {
                                         3
                                     </div>
                                     <div>
-                                        <p className="font-medium">Enjoy the Celebration</p>
+                                        <p className="font-medium">Enjoy the Event</p>
                                         <p className="text-sm text-muted-foreground">
-                                            We can't wait to celebrate with you!
+                                            We can't wait to see you at Suwayda Event!
                                         </p>
                                     </div>
                                 </div>

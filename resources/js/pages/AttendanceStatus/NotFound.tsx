@@ -14,8 +14,8 @@ import {
 export default function AttendanceStatusNotFound() {
     return (
         <>
-            <Head title="Status Link Not Found" />
-            <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+            <Head title="رابط الحالة غير موجود" />
+            <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4" dir="rtl">
                 <div className="w-full max-w-2xl space-y-6">
                     {/* Error Header */}
                     <div className="text-center space-y-4">
@@ -24,10 +24,10 @@ export default function AttendanceStatusNotFound() {
                         </div>
                         <div className="space-y-2">
                             <h1 className="text-4xl font-bold tracking-tight text-red-900 dark:text-red-100">
-                                Status Link Not Found
+                                رابط الحالة غير موجود
                             </h1>
                             <p className="text-xl text-muted-foreground">
-                                We couldn't find the attendance status page you're looking for
+                                لم نتمكن من العثور على صفحة حالة الحضور التي تبحث عنها
                             </p>
                         </div>
                     </div>
@@ -37,28 +37,28 @@ export default function AttendanceStatusNotFound() {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2 text-red-900 dark:text-red-100">
                                 <Search className="h-5 w-5" />
-                                What happened?
+                                ماذا حدث؟
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="text-red-800 dark:text-red-200">
-                                <p className="mb-3">This could happen for several reasons:</p>
+                                <p className="mb-3">قد يحدث هذا لعدة أسباب:</p>
                                 <ul className="space-y-2 text-sm">
                                     <li className="flex items-start gap-2">
                                         <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 shrink-0"></span>
-                                        The status link may have expired or been deactivated
+                                        قد يكون رابط الحالة منتهي الصلاحية أو تم إلغاؤه
                                     </li>
                                     <li className="flex items-start gap-2">
                                         <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 shrink-0"></span>
-                                        The link might have been copied incorrectly
+                                        قد يكون الرابط منسوخاً بشكل خاطئ
                                     </li>
                                     <li className="flex items-start gap-2">
                                         <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 shrink-0"></span>
-                                        The attendant registration may have been removed
+                                        قد يكون تسجيل الحضور تم حذفه
                                     </li>
                                     <li className="flex items-start gap-2">
                                         <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 shrink-0"></span>
-                                        The event may have already concluded
+                                        قد يكون الحدث انتهى بالفعل
                                     </li>
                                 </ul>
                             </div>
@@ -70,10 +70,10 @@ export default function AttendanceStatusNotFound() {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <HelpCircle className="h-5 w-5" />
-                                What can you do?
+                                ماذا يمكنك أن تفعل؟
                             </CardTitle>
                             <CardDescription>
-                                Here are some steps you can take to resolve this issue
+                                إليك بعض الخطوات التي يمكنك اتخاذها لحل هذه المشكلة
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -83,9 +83,9 @@ export default function AttendanceStatusNotFound() {
                                         1
                                     </div>
                                     <div className="flex-1">
-                                        <p className="font-medium mb-1">Check your original invitation</p>
+                                        <p className="font-medium mb-1">تحقق من دعوتك الأصلية</p>
                                         <p className="text-sm text-muted-foreground">
-                                            Look for the original invitation email or message that contained your status link
+                                            ابحث عن البريد الإلكتروني أو الرسالة الأصلية التي تحتوي على رابط الحالة
                                         </p>
                                     </div>
                                 </div>
@@ -94,9 +94,9 @@ export default function AttendanceStatusNotFound() {
                                         2
                                     </div>
                                     <div className="flex-1">
-                                        <p className="font-medium mb-1">Contact the event organizer</p>
+                                        <p className="font-medium mb-1">تواصل مع منظم الحدث</p>
                                         <p className="text-sm text-muted-foreground">
-                                            Reach out to the person who invited you for a new status link
+                                            تواصل مع الشخص الذي دعاك للحصول على رابط حالة جديد
                                         </p>
                                     </div>
                                 </div>
@@ -105,9 +105,9 @@ export default function AttendanceStatusNotFound() {
                                         3
                                     </div>
                                     <div className="flex-1">
-                                        <p className="font-medium mb-1">Try again later</p>
+                                        <p className="font-medium mb-1">حاول مرة أخرى لاحقاً</p>
                                         <p className="text-sm text-muted-foreground">
-                                            If this is a temporary issue, the link might work again soon
+                                            إذا كانت هذه مشكلة مؤقتة، قد يعمل الرابط مرة أخرى قريباً
                                         </p>
                                     </div>
                                 </div>
@@ -122,16 +122,16 @@ export default function AttendanceStatusNotFound() {
                             variant="outline"
                             className="flex-1"
                         >
-                            <ArrowLeft className="h-4 w-4 mr-2" />
-                            Go Back
+                            <ArrowLeft className="h-4 w-4 ml-2" />
+                            العودة
                         </Button>
                         <Button 
                             onClick={() => window.location.reload()}
                             variant="outline"
                             className="flex-1"
                         >
-                            <Clock className="h-4 w-4 mr-2" />
-                            Try Again
+                            <Clock className="h-4 w-4 ml-2" />
+                            حاول مرة أخرى
                         </Button>
                     </div>
 
@@ -140,9 +140,9 @@ export default function AttendanceStatusNotFound() {
                         <CardContent className="pt-6">
                             <div className="text-center space-y-2">
                                 <Mail className="h-6 w-6 text-muted-foreground mx-auto" />
-                                <p className="text-sm font-medium">Need Help?</p>
+                                <p className="text-sm font-medium">تحتاج مساعدة؟</p>
                                 <p className="text-xs text-muted-foreground">
-                                    Contact the event organizers if you continue to experience issues with your status link
+                                    تواصل مع منظمي الحدث إذا استمرت المشاكل مع رابط الحالة
                                 </p>
                             </div>
                         </CardContent>

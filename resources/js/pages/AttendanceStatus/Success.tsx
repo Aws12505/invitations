@@ -12,25 +12,25 @@ interface Props {
 export default function AttendanceStatusSuccess({ attendant }: Props) {
     const statusConfig = {
         coming: {
-            label: 'Coming',
+            label: 'سأحضر',
             icon: CheckCircle,
             color: 'text-green-600',
             bgColor: 'bg-green-50',
-            message: 'Great! We\'re excited to see you at the celebration.',
+            message: 'رائع! نحن متحمسون لرؤيتك في الاحتفال.',
         },
         maybe: {
-            label: 'Maybe',
+            label: 'ربما',
             icon: Clock,
             color: 'text-yellow-600',
             bgColor: 'bg-yellow-50',
-            message: 'Thanks for letting us know. Feel free to update when you\'re sure.',
+            message: 'شكراً لإعلامنا. لا تتردد في التحديث عندما تكون متأكداً.',
         },
         not_coming: {
-            label: 'Not Coming',
+            label: 'لن أحضر',
             icon: XCircle,
             color: 'text-red-600',
             bgColor: 'bg-red-50',
-            message: 'We\'ll miss you! Thank you for letting us know.',
+            message: 'سنفتقدك! شكراً لإعلامنا.',
         },
     };
 
@@ -43,8 +43,8 @@ export default function AttendanceStatusSuccess({ attendant }: Props) {
 
     return (
         <>
-            <Head title="Status Updated Successfully" />
-            <div className={`min-h-screen ${config.bgColor} flex items-center justify-center p-4`}>
+            <Head title="تم تحديث الحالة بنجاح" />
+            <div className={`min-h-screen ${config.bgColor} flex items-center justify-center p-4`} dir="rtl">
                 <div className="w-full max-w-2xl space-y-6">
                     {/* Success Header */}
                     <div className="text-center space-y-4">
@@ -52,7 +52,7 @@ export default function AttendanceStatusSuccess({ attendant }: Props) {
                             <IconComponent className={`h-8 w-8 ${config.color}`} />
                         </div>
                         <h1 className="text-4xl font-bold tracking-tight">
-                            Status Updated!
+                            تم تحديث الحالة!
                         </h1>
                         <p className="text-xl text-muted-foreground">
                             {config.message}
@@ -64,17 +64,17 @@ export default function AttendanceStatusSuccess({ attendant }: Props) {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <User className="h-5 w-5" />
-                                Updated Information
+                                المعلومات المحدثة
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Name</p>
+                                    <p className="text-sm font-medium text-muted-foreground">الاسم</p>
                                     <p className="font-medium">{attendant.full_name}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Attendance Status</p>
+                                    <p className="text-sm font-medium text-muted-foreground">حالة الحضور</p>
                                     <div className="flex items-center gap-2">
                                         <IconComponent className={`h-4 w-4 ${config.color}`} />
                                         <Badge 
@@ -88,44 +88,58 @@ export default function AttendanceStatusSuccess({ attendant }: Props) {
                                     </div>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Updated On</p>
+                                    <p className="text-sm font-medium text-muted-foreground">تاريخ التحديث</p>
                                     <p className="font-medium flex items-center gap-2">
                                         <Calendar className="h-4 w-4" />
-                                        {new Date().toLocaleDateString()}
+                                        {new Date().toLocaleDateString('ar-SA')}
                                     </p>
-                                </div>
-                                <div>
-                                    <p className="text-sm font-medium text-muted-foreground">VIP Status</p>
-                                    <Badge variant={attendant.vip_status === 'vip' ? 'default' : 'secondary'}>
-                                        {attendant.vip_status.toUpperCase()}
-                                    </Badge>
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
-                    {/* Change Status Again */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Need to Change Your Status?</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-muted-foreground mb-4">
-                                You can update your attendance status anytime before the event.
-                            </p>
-                            <Button 
-                                onClick={() => window.location.reload()}
-                                variant="outline"
-                                className="w-full"
-                            >
-                                Update Status Again
-                            </Button>
+                    {/* Status Message */}
+                    <Card className={config.bgColor}>
+                        <CardContent className="pt-6">
+                            <div className="text-center space-y-2">
+                                <IconComponent className={`h-8 w-8 ${config.color} mx-auto`} />
+                                <p className="font-medium text-lg">{config.message}</p>
+                            </div>
                         </CardContent>
                     </Card>
 
-                    {/* Footer */}
-                    <div className="text-center text-sm text-muted-foreground">
-                        <p>Thank you for keeping us updated!</p>
+                    {/* Additional Information */}
+                    <Card>
+                        <CardContent className="pt-6">
+                            <div className="space-y-4">
+                                <h3 className="font-medium">معلومات مهمة:</h3>
+                                <ul className="space-y-2 text-sm text-muted-foreground">
+                                    <li className="flex items-start gap-2">
+                                        <span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 shrink-0"></span>
+                                        يمكنك تغيير حالة حضورك في أي وقت قبل الحدث
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 shrink-0"></span>
+                                        احتفظ برابط الحالة للرجوع إليه لاحقاً
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 shrink-0"></span>
+                                        سيتم إرسال تذكير قبل الحدث
+                                    </li>
+                                </ul>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Action Button */}
+                    <div className="text-center">
+                        <Button 
+                            onClick={() => window.close()}
+                            variant="outline"
+                            size="lg"
+                        >
+                            إغلاق النافذة
+                        </Button>
                     </div>
                 </div>
             </div>

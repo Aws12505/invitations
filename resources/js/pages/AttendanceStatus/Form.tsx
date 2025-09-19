@@ -20,22 +20,22 @@ export default function AttendanceStatusForm({ attendant }: Props) {
 
     const statusConfig = {
         coming: {
-            label: 'Coming',
-            description: 'I will definitely attend the event',
+            label: 'سأحضر',
+            description: 'سأحضر الحدث بالتأكيد',
             icon: CheckCircle,
             color: 'text-green-600',
             bgColor: 'bg-green-50 border-green-200',
         },
         maybe: {
-            label: 'Maybe',
-            description: 'I might attend, not sure yet',
+            label: 'ربما',
+            description: 'قد أحضر، لست متأكداً بعد',
             icon: Clock,
             color: 'text-yellow-600',
             bgColor: 'bg-yellow-50 border-yellow-200',
         },
         not_coming: {
-            label: 'Not Coming',
-            description: 'I will not be able to attend',
+            label: 'لن أحضر',
+            description: 'لن أتمكن من الحضور',
             icon: XCircle,
             color: 'text-red-600',
             bgColor: 'bg-red-50 border-red-200',
@@ -45,7 +45,7 @@ export default function AttendanceStatusForm({ attendant }: Props) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!selectedStatus) {
-            toast.error('Please select your attendance status');
+            toast.error('يرجى اختيار حالة الحضور');
             return;
         }
 
@@ -55,10 +55,10 @@ export default function AttendanceStatusForm({ attendant }: Props) {
             attendance_status: selectedStatus,
         }, {
             onSuccess: () => {
-                toast.success('Attendance status updated successfully!');
+                toast.success('تم تحديث حالة الحضور بنجاح!');
             },
             onError: () => {
-                toast.error('Failed to update status. Please try again.');
+                toast.error('فشل في تحديث الحالة. يرجى المحاولة مرة أخرى.');
                 setProcessing(false);
             },
         });
@@ -66,17 +66,17 @@ export default function AttendanceStatusForm({ attendant }: Props) {
 
     return (
         <>
-            <Head title={`Update Attendance - ${attendant.full_name}`} />
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+            <Head title={`تحديث الحضور - ${attendant.full_name}`} />
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4" dir="rtl">
                 <div className="w-full max-w-2xl space-y-6">
                     {/* Header */}
                     <div className="text-center space-y-4">
                         <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full">
                             <User className="h-8 w-8 text-primary" />
                         </div>
-                        <h1 className="text-4xl font-bold tracking-tight">Update Attendance</h1>
+                        <h1 className="text-4xl font-bold tracking-tight">تحديث الحضور</h1>
                         <p className="text-xl text-muted-foreground">
-                            Hi {attendant.full_name}, please let us know your attendance status
+                            مرحباً {attendant.full_name}، يرجى إعلامنا بحالة حضورك
                         </p>
                     </div>
 
@@ -85,23 +85,17 @@ export default function AttendanceStatusForm({ attendant }: Props) {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Calendar className="h-5 w-5" />
-                                Registration Details
+                                تفاصيل التسجيل
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid gap-4 md:grid-cols-3">
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Name</p>
+                                    <p className="text-sm font-medium text-muted-foreground">الاسم</p>
                                     <p className="font-medium">{attendant.full_name}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">VIP Status</p>
-                                    <Badge variant={attendant.vip_status === 'vip' ? 'default' : 'secondary'}>
-                                        {attendant.vip_status.toUpperCase()}
-                                    </Badge>
-                                </div>
-                                <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Current Status</p>
+                                    <p className="text-sm font-medium text-muted-foreground">الحالة الحالية</p>
                                     {attendant.attendance_status ? (
                                         <Badge 
                                             variant={
@@ -112,7 +106,7 @@ export default function AttendanceStatusForm({ attendant }: Props) {
                                             {statusConfig[attendant.attendance_status].label}
                                         </Badge>
                                     ) : (
-                                        <Badge variant="outline">Not Set</Badge>
+                                        <Badge variant="outline">غير محدد</Badge>
                                     )}
                                 </div>
                             </div>
@@ -122,9 +116,9 @@ export default function AttendanceStatusForm({ attendant }: Props) {
                     {/* Status Selection */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>Select Your Attendance Status</CardTitle>
+                            <CardTitle>اختر حالة حضورك</CardTitle>
                             <CardDescription>
-                                Choose the option that best describes your attendance plans
+                                اختر الخيار الذي يصف خططك للحضور بشكل أفضل
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -166,7 +160,7 @@ export default function AttendanceStatusForm({ attendant }: Props) {
                                     className="w-full"
                                     size="lg"
                                 >
-                                    {processing ? 'Updating...' : 'Update Attendance Status'}
+                                    {processing ? 'جاري التحديث...' : 'تحديث حالة الحضور'}
                                 </Button>
                             </form>
                         </CardContent>
@@ -176,8 +170,8 @@ export default function AttendanceStatusForm({ attendant }: Props) {
                     <Card>
                         <CardContent className="pt-6">
                             <p className="text-sm text-muted-foreground text-center">
-                                You can change your attendance status anytime before the event. 
-                                This helps us better plan for the celebration.
+                                يمكنك تغيير حالة حضورك في أي وقت قبل الحدث. 
+                                هذا يساعدنا على التخطيط بشكل أفضل للاحتفال.
                             </p>
                         </CardContent>
                     </Card>

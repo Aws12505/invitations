@@ -47,7 +47,7 @@ export default function InvitationForm({ invitationLink }: Props) {
         router.post(`/invitation/${invitationLink.token}`, formData, {
             onError: (errors: FormErrors) => {
                 setErrors(errors);
-                toast.error('Please check the form for errors');
+                toast.error('يرجى التحقق من النموذج للأخطاء');
                 setProcessing(false);
             },
         });
@@ -61,19 +61,16 @@ export default function InvitationForm({ invitationLink }: Props) {
 
     return (
         <>
-            <Head title={`Invitation from ${invitationLink.full_name}`} />
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+            <Head title={`دعوة من ${invitationLink.full_name}`} />
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4" dir="rtl">
                 <div className="w-full max-w-2xl space-y-6">
                     {/* Event Header */}
                     <div className="text-center space-y-4">
                         <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full">
                             <Calendar className="h-4 w-4" />
-                            <span className="text-sm font-medium">You're Invited!</span>
+                            <span className="text-sm font-medium">أنت مدعو!</span>
                         </div>
-                        <h1 className="text-4xl font-bold tracking-tight">Wedding Celebration</h1>
-                        <p className="text-xl text-muted-foreground">
-                            You have been invited by <strong>{invitationLink.full_name}</strong>
-                        </p>
+                        <h1 className="text-4xl font-bold tracking-tight">حدث السويداء</h1>
                     </div>
 
                     {/* Event Details */}
@@ -81,7 +78,7 @@ export default function InvitationForm({ invitationLink }: Props) {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <MapPin className="h-5 w-5" />
-                                Event Information
+                                معلومات الحدث
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
@@ -89,18 +86,12 @@ export default function InvitationForm({ invitationLink }: Props) {
                                 <div className="flex items-center gap-3">
                                     <Users className="h-5 w-5 text-muted-foreground" />
                                     <div>
-                                        <p className="text-sm font-medium">Available Slots</p>
+                                        <p className="text-sm font-medium">الأماكن المتاحة</p>
                                         <p className="text-2xl font-bold text-primary">{remainingSlots}</p>
                                     </div>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">VIP Status</p>
-                                    <Badge variant={invitationLink.default_vip_status === 'vip' ? 'default' : 'secondary'}>
-                                        {invitationLink.default_vip_status.toUpperCase()}
-                                    </Badge>
-                                </div>
-                                <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Invited By</p>
+                                    <p className="text-sm font-medium text-muted-foreground">مدعو من قبل</p>
                                     <p className="font-medium">{invitationLink.full_name}</p>
                                 </div>
                             </div>
@@ -110,9 +101,9 @@ export default function InvitationForm({ invitationLink }: Props) {
                     {/* Registration Form */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>Complete Your Registration</CardTitle>
+                            <CardTitle>أكمل تسجيلك</CardTitle>
                             <CardDescription>
-                                Please fill in your details to confirm your attendance
+                                يرجى ملء بياناتك لتأكيد حضورك
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -121,47 +112,47 @@ export default function InvitationForm({ invitationLink }: Props) {
                                     <FormField
                                         id="first_name"
                                         name="first_name"
-                                        label="First Name"
+                                        label="الاسم الأول"
                                         value={formData.first_name}
                                         onChange={(e) => updateFormData('first_name', e.target.value)}
                                         error={errors.first_name}
                                         required
-                                        placeholder="Enter your first name"
+                                        placeholder="أدخل اسمك الأول"
                                     />
                                     <FormField
                                         id="father_name"
                                         name="father_name"
-                                        label="Father's Name"
+                                        label="اسم الأب"
                                         value={formData.father_name}
                                         onChange={(e) => updateFormData('father_name', e.target.value)}
                                         error={errors.father_name}
                                         required
-                                        placeholder="Enter your father's name"
+                                        placeholder="أدخل اسم والدك"
                                     />
                                 </div>
 
                                 <FormField
                                     id="last_name"
                                     name="last_name"
-                                    label="Last Name"
+                                    label="اسم العائلة"
                                     value={formData.last_name}
                                     onChange={(e) => updateFormData('last_name', e.target.value)}
                                     error={errors.last_name}
                                     required
-                                    placeholder="Enter your last name"
+                                    placeholder="أدخل اسم عائلتك"
                                 />
 
                                 <FormField
                                     id="phone_number"
                                     name="phone_number"
                                     type="tel"
-                                    label="Phone Number"
+                                    label="رقم الهاتف"
                                     value={formData.phone_number}
                                     onChange={(e) => updateFormData('phone_number', e.target.value)}
                                     error={errors.phone_number}
                                     required
                                     placeholder="+963 95986220"
-                                    description="Please include your country code (e.g., +963 for Syria)"
+                                    description="يرجى تضمين رمز البلد (مثل +963 لسوريا)"
                                 />
 
                                 <Button 
@@ -170,7 +161,7 @@ export default function InvitationForm({ invitationLink }: Props) {
                                     className="w-full"
                                     size="lg"
                                 >
-                                    {processing ? 'Registering...' : 'Complete Registration'}
+                                    {processing ? 'جاري التسجيل...' : 'إكمال التسجيل'}
                                 </Button>
                             </form>
                         </CardContent>
@@ -178,7 +169,7 @@ export default function InvitationForm({ invitationLink }: Props) {
 
                     {/* Footer */}
                     <div className="text-center text-sm text-muted-foreground">
-                        <p>Need help? Contact the event organizers</p>
+                        <p>تحتاج مساعدة؟ تواصل مع منظمي الحدث</p>
                     </div>
                 </div>
             </div>
