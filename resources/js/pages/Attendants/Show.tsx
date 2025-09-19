@@ -299,9 +299,9 @@ export default function AttendantShow({ attendant }: Props) {
                                     className="w-full justify-start"
                                     asChild
                                 >
-                                    <a href={`tel:${attendant.phone_number}`}>
+                                    <a href={`https://wa.me/${attendant.phone_number}/`}>
                                         <Phone className="h-4 w-4 mr-2" />
-                                        Call Attendant
+                                        Contact Attendant
                                     </a>
                                 </Button>
                                 <Button 
