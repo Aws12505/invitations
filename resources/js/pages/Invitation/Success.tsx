@@ -58,7 +58,7 @@ export default function InvitationSuccess({ attendant, statusUrl }: Props) {
                                     <p className="text-sm font-medium text-muted-foreground">تاريخ التسجيل</p>
                                     <p className="font-medium flex items-center gap-2">
                                         <Calendar className="h-4 w-4" />
-                                        {new Date(attendant.created_at).toLocaleDateString('ar-SA')}
+                                        {new Date(attendant.created_at).toLocaleDateString()}
                                     </p>
                                 </div>
                             </div>
