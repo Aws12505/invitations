@@ -146,7 +146,7 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
     return (
         <>
             <Head title={`${attendant.full_name} - دعوة زفاف`} />
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:to-gray-800" dir="rtl">
+            <div className="min-h-screen  from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:to-gray-800" dir="rtl">
                 {/* Header */}
                 <div className="bg-white dark:bg-gray-900 border-b shadow-sm">
                     <div className="max-w-4xl mx-auto px-4 py-6">
