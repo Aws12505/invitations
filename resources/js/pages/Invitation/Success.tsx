@@ -17,8 +17,8 @@ export default function InvitationSuccess({ attendant, statusUrl }: Props) {
 
     return (
         <>
-            <Head title="Registration Successful" />
-            <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+            <Head title="تم التسجيل بنجاح" />
+            <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4" dir="rtl">
                 <div className="w-full max-w-2xl space-y-6">
                     {/* Success Header */}
                     <div className="text-center space-y-4">
@@ -26,10 +26,10 @@ export default function InvitationSuccess({ attendant, statusUrl }: Props) {
                             <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
                         </div>
                         <h1 className="text-4xl font-bold tracking-tight text-green-900 dark:text-green-100">
-                            Registration Successful!
+                            تم التسجيل بنجاح!
                         </h1>
                         <p className="text-xl text-muted-foreground">
-                            Welcome to Suwayda Event, {attendant.full_name}
+                            مرحباً بك في حدث السويداء، {attendant.full_name}
                         </p>
                     </div>
 
@@ -38,27 +38,27 @@ export default function InvitationSuccess({ attendant, statusUrl }: Props) {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <User className="h-5 w-5" />
-                                Your Registration Details
+                                تفاصيل التسجيل
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Full Name</p>
+                                    <p className="text-sm font-medium text-muted-foreground">الاسم الكامل</p>
                                     <p className="font-medium">{attendant.full_name}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Phone Number</p>
+                                    <p className="text-sm font-medium text-muted-foreground">رقم الهاتف</p>
                                     <p className="font-medium flex items-center gap-2">
                                         <Phone className="h-4 w-4" />
                                         {attendant.phone_number}
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Registration Date</p>
+                                    <p className="text-sm font-medium text-muted-foreground">تاريخ التسجيل</p>
                                     <p className="font-medium flex items-center gap-2">
                                         <Calendar className="h-4 w-4" />
-                                        {new Date(attendant.created_at).toLocaleDateString()}
+                                        {new Date(attendant.created_at).toLocaleDateString('ar-SA')}
                                     </p>
                                 </div>
                             </div>
@@ -68,25 +68,25 @@ export default function InvitationSuccess({ attendant, statusUrl }: Props) {
                     {/* Status Management */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>Manage Your Attendance Status</CardTitle>
+                            <CardTitle>إدارة حالة الحضور</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <p className="text-muted-foreground">
-                                Use the link below to update your attendance status anytime before the event.
+                                استخدم الرابط أدناه لتحديث حالة حضورك في أي وقت قبل الحدث.
                             </p>
                             <div className="flex gap-3">
                                 <Button asChild className="flex-1">
                                     <a href={statusUrl} target="_blank" rel="noopener noreferrer">
-                                        <ExternalLink className="h-4 w-4 mr-2" />
-                                        Update Attendance Status
+                                        <ExternalLink className="h-4 w-4 ml-2" />
+                                        تحديث حالة الحضور
                                     </a>
                                 </Button>
                                 <Button variant="outline" onClick={copyStatusUrl}>
-                                    Copy Link
+                                    نسخ الرابط
                                 </Button>
                             </div>
                             <p className="text-xs text-muted-foreground">
-                                Save this link - you'll need it to change your attendance status later.
+                                احفظ هذا الرابط - ستحتاجه لتغيير حالة حضورك لاحقاً.
                             </p>
                         </CardContent>
                     </Card>
@@ -94,7 +94,7 @@ export default function InvitationSuccess({ attendant, statusUrl }: Props) {
                     {/* Next Steps */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>What's Next?</CardTitle>
+                            <CardTitle>ما التالي؟</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-3">
@@ -103,9 +103,9 @@ export default function InvitationSuccess({ attendant, statusUrl }: Props) {
                                         1
                                     </div>
                                     <div>
-                                        <p className="font-medium">Save Your Status Link</p>
+                                        <p className="font-medium">احفظ رابط الحالة</p>
                                         <p className="text-sm text-muted-foreground">
-                                            Bookmark or save the attendance status link for future use
+                                            ضع إشارة مرجعية أو احفظ رابط حالة الحضور للاستخدام المستقبلي
                                         </p>
                                     </div>
                                 </div>
@@ -114,9 +114,9 @@ export default function InvitationSuccess({ attendant, statusUrl }: Props) {
                                         2
                                     </div>
                                     <div>
-                                        <p className="font-medium">Update Your Status</p>
+                                        <p className="font-medium">حدث حالتك</p>
                                         <p className="text-sm text-muted-foreground">
-                                            Let us know if you're coming, maybe, or not coming
+                                            أعلمنا إذا كنت ستحضر، أو ربما، أو لن تحضر
                                         </p>
                                     </div>
                                 </div>
@@ -125,9 +125,9 @@ export default function InvitationSuccess({ attendant, statusUrl }: Props) {
                                         3
                                     </div>
                                     <div>
-                                        <p className="font-medium">Enjoy the Event</p>
+                                        <p className="font-medium">استمتع بالحدث</p>
                                         <p className="text-sm text-muted-foreground">
-                                            We can't wait to see you at Suwayda Event!
+                                            لا نطيق الصبر لرؤيتك في حدث السويداء!
                                         </p>
                                     </div>
                                 </div>
