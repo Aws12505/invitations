@@ -36,11 +36,11 @@ export default function ChairDisplay({ chairNumber, size = 'md', showSection = f
             >
                 #{chairNumber}
             </Badge>
-            {showSection && (
+            {/* {showSection && (
                 <span className="text-xs text-muted-foreground ml-1">
                     ({isVip ? 'VIP' : 'Regular'})
                 </span>
-            )}
+            )} */}
         </div>
     );
 }

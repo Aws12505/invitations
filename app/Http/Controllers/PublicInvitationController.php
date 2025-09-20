@@ -46,10 +46,15 @@ class PublicInvitationController extends Controller
             $request->validated(),
             $invitationLink
         );
-
+        if($attendant->vip_status == 'vip'){ $isVip = true; } else { $isVip = false; }
+        $whatsappGroupRegular = 'https://chat.whatsapp.com/regular-group-link';
+        $whatsappGroupVip = 'https://chat.whatsapp.com/vip-group-link';
         return Inertia::render('Invitation/Success', [
             'attendant' => $attendant,
-            'statusUrl' => route('attendance.status', $attendant->status_token)
+            'statusUrl' => route('attendance.status', $attendant->status_token),
+            'isVip' => $isVip,
+            'whatsappGroupRegular' => $whatsappGroupRegular,
+            'whatsappGroupVip' => $whatsappGroupVip
         ]);
     }
 }

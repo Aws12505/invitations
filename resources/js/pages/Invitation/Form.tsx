@@ -5,14 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { FormField } from '@/components/ui/form-field';
 import { Badge } from '@/components/ui/badge';
-import { Users, Calendar, MapPin } from 'lucide-react';
+import { Users, Calendar, MapPin, Heart } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Props {
     invitationLink: InvitationLink;
 }
 
-// Fix: Use a proper interface that extends Record for type safety
 interface AttendantFormData extends Record<string, string> {
     first_name: string;
     father_name: string;
@@ -39,11 +38,18 @@ export default function InvitationForm({ invitationLink }: Props) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        
+        // Validate phone number format
+        const phoneRegex = /^09\d{8}$/;
+        if (!phoneRegex.test(formData.phone_number)) {
+            setErrors({ phone_number: 'رقم الهاتف يجب أن يكون 10 أرقام ويبدأ بـ 09' });
+            toast.error('يرجى التحقق من تنسيق رقم الهاتف');
+            return;
+        }
+
         setProcessing(true);
         setErrors({});
 
-        // Fix: Now formData is already properly typed as Record<string, string>
-        // No casting needed since AttendantFormData extends Record<string, string>
         router.post(`/invitation/${invitationLink.token}`, formData, {
             onError: (errors: FormErrors) => {
                 setErrors(errors);
@@ -61,52 +67,116 @@ export default function InvitationForm({ invitationLink }: Props) {
 
     return (
         <>
-            <Head title={`دعوة من ${invitationLink.full_name}`} />
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4" dir="rtl">
-                <div className="w-full max-w-2xl space-y-6">
-                    {/* Event Header */}
-                    <div className="text-center space-y-4">
-                        <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full">
-                            <Calendar className="h-4 w-4" />
-                            <span className="text-sm font-medium">أنت مدعو!</span>
+            <Head title={`دعوة من ${invitationLink.full_name} - أصداء السويداء`} />
+            <div className="min-h-screen bg-gray-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4" dir="rtl">
+                <div className="w-full max-w-4xl space-y-8">
+                    {/* Logo and Event Header */}
+                    <div className="text-center space-y-6">
+                        <div className="flex justify-center mb-8">
+                            <img 
+                                src="/logo.svg" 
+                                alt="أصداء السويداء" 
+                                className="h-50 w-auto"
+                            />
                         </div>
-                        <h1 className="text-4xl font-bold tracking-tight">حدث السويداء</h1>
+                        
+                        <div className="inline-flex items-center gap-2 bg-green-50 text-green-800 px-4 py-2 rounded-full border">
+                            <Heart className="h-4 w-4" />
+                            <span className="font-medium text-sm">أنت مدعو لحضور فعالية</span>
+                        </div>
                     </div>
 
-                    {/* Event Details */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <MapPin className="h-5 w-5" />
-                                معلومات الحدث
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="grid gap-4 md:grid-cols-3">
-                                <div className="flex items-center gap-3">
-                                    <Users className="h-5 w-5 text-muted-foreground" />
+                    {/* Main Event Description */}
+                    <Card className="border shadow-lg">
+                        <CardContent className="pt-8 pb-8">
+                            <div className="text-center space-y-6 leading-relaxed">
+                                <div className="space-y-2">
+                                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                                        أصداء السويداء – Echoes of Swaida
+                                    </h1>
+                                </div>
+                                
+                                <div className="space-y-5 text-gray-700 max-w-5xl mx-auto text-base leading-relaxed">
+                                    <p className="text-lg font-medium italic text-gray-800">
+                                        "من قلب الجراح تولد الألوان، ومن بين الصمت تعلو الأصوات."
+                                    </p>
+                                    
+                                    <p>
+                                        بعد الأحداث الأليمة التي عصفت بالسويداء، نلتقي لنحوّل الألم إلى إبداع، والدمعة إلى لحن، والرماد إلى فسحة أمل.
+                                    </p>
+                                    
+                                    <p>
+                                        ندعوكم للمشاركة في فعالية <span className="font-semibold">أصداء السويداء الفنية – الثقافية – المدنية – الخيرية</span>، 
+                                        يوم <span className="font-semibold">السبت 27 أيلول 2025</span>، من الساعة 
+                                        <span className="font-semibold"> الثالثة والنصف عصرًا حتى السابعة مساءً</span>، 
+                                        في <span className="font-semibold">المركز الثقافي بالسويداء</span>.
+                                    </p>
+                                    
+                                    <div className="py-2">
+                                        <p className="font-medium text-gray-800 mb-3">
+                                            بمشاركة فنانين ومبدعين يضيئون فضاء السويداء:
+                                        </p>
+                                        <div className="space-y-1">
+                                            <p>- الفنان الأصيل إيهاب بلان</p>
+                                            <p>- الفنان التشكيلي القدير عصام الشاطر</p>
+                                            <p>- كورال مدى بقيادة الأستاذ معين نفاع</p>
+                                            <p>- فرقة سماعي الغنائية</p>
+                                            <p>- الفنانة الموهوبة هديل الريشاني</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <p>
+                                        إلى جانب معارض فنية ومشاركة واسعة من عدد من الفنانين، 
+                                        <span className="font-semibold"> حضوركم معنا ليس مجرد مشاهدة، بل هو رسالة أمل لأهل السويداء</span>، 
+                                        ودافعنا لنستمر ونبدع للأفضل.
+                                    </p>
+                                    
+                                    <p className="font-medium text-gray-800">
+                                        <span className="font-semibold">كن جزءاً من هذا الصدى معنا، وساعدنا بإيصال ثقافتنا للعالم أجمع</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Event Quick Info */}
+                    <Card className="border shadow-lg">
+                        <CardContent className="pt-6">
+                            <div className="grid gap-4 md:grid-cols-3 text-center">
+                                <div className="space-y-2">
+                                    <Calendar className="h-6 w-6 text-gray-600 mx-auto" />
                                     <div>
-                                        <p className="text-sm font-medium">الأماكن المتاحة</p>
-                                        <p className="text-2xl font-bold text-primary">{remainingSlots}</p>
+                                        <p className="font-semibold text-gray-900">يوم السبت 27 أيلول 2025</p>
+                                        <p className="text-sm text-gray-600">3:30 PM - 7:00 PM</p>
                                     </div>
                                 </div>
-                                <div>
-                                    <p className="text-sm font-medium text-muted-foreground">مدعو من قبل</p>
-                                    <p className="font-medium">{invitationLink.full_name}</p>
+                                <div className="space-y-2">
+                                    <MapPin className="h-6 w-6 text-gray-600 mx-auto" />
+                                    <div>
+                                        <p className="font-semibold text-gray-900">المركز الثقافي</p>
+                                        <p className="text-sm text-gray-600">السويداء</p>
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <Users className="h-6 w-6 text-gray-600 mx-auto" />
+                                    <div>
+                                        <p className="font-semibold text-gray-900">{remainingSlots} مقعد متاح</p>
+                                        <p className="text-sm text-gray-600">مدعو من {invitationLink.full_name}</p>
+                                    </div>
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
                     {/* Registration Form */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>أكمل تسجيلك</CardTitle>
-                            <CardDescription>
-                                يرجى ملء بياناتك لتأكيد حضورك
+                    <Card className="border-2 border-green-200 shadow-lg">
+                        <CardHeader className="bg-green-50">
+                            <CardTitle className="text-green-800">أكمل تسجيلك</CardTitle>
+                            <CardDescription className="text-green-700">
+                                يرجى ملء بياناتك لتأكيد حضورك لهذه الفعالية المميزة
                             </CardDescription>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="pt-6">
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <FormField
@@ -151,14 +221,14 @@ export default function InvitationForm({ invitationLink }: Props) {
                                     onChange={(e) => updateFormData('phone_number', e.target.value)}
                                     error={errors.phone_number}
                                     required
-                                    placeholder="+963 95986220"
-                                    description="يرجى تضمين رمز البلد (مثل +963 لسوريا)"
+                                    placeholder="0912345678"
+                                    description="رقم الهاتف يجب أن يكون 10 أرقام ويبدأ بـ 09"
                                 />
 
                                 <Button 
                                     type="submit" 
                                     disabled={processing || remainingSlots === 0}
-                                    className="w-full"
+                                    className="w-full bg-green-600 hover:bg-green-700 text-white shadow-lg"
                                     size="lg"
                                 >
                                     {processing ? 'جاري التسجيل...' : 'إكمال التسجيل'}
@@ -166,11 +236,6 @@ export default function InvitationForm({ invitationLink }: Props) {
                             </form>
                         </CardContent>
                     </Card>
-
-                    {/* Footer */}
-                    <div className="text-center text-sm text-muted-foreground">
-                        <p>تحتاج مساعدة؟ تواصل مع منظمي الحدث</p>
-                    </div>
                 </div>
             </div>
         </>

@@ -87,7 +87,7 @@ export default function ChairAssignmentWidget({ attendant, showActions = true }:
                         </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                        {isVipSection ? 'VIP Section (Chairs 1-250)' : 'Regular Section (Chairs 251-360)'}
+                        {isVipSection ? 'Section (Chairs 1-250)' : 'Section (Chairs 251-360)'}
                     </p>
                     {attendant.invitation_link && (
                         <p className="text-xs text-muted-foreground mt-1">

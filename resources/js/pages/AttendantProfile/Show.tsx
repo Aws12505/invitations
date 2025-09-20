@@ -18,11 +18,7 @@ import {
     UserX,
     Armchair,
     Shield,
-    Sparkles,
-    Star,
-    Award,
-    TrendingUp,
-    Heart
+    Star
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState } from 'react';
@@ -93,14 +89,14 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
         if (!attendant.chair_number) {
             return (
                 <div className="text-center py-8">
-                    <div className="w-20 h-20 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="w-20 h-20 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center mx-auto mb-4">
                         <Armchair className="h-10 w-10 text-gray-400 dark:text-gray-500" />
                     </div>
                     <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
                         لم يتم تعيين كرسي
                     </h3>
-                    <p className="text-muted-foreground">
-                        سيتم تعيين مقعدك عند الوصول إلى الحدث
+                    <p className="text-gray-500">
+                        سيتم تعيين مقعدك عند الوصول إلى الفعالية
                     </p>
                 </div>
             );
@@ -109,10 +105,10 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
         const isVip = false;
         return (
             <div className="flex flex-col items-center justify-center p-6">
-                <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-6 shadow-lg ring-4 ring-white/50 dark:ring-gray-800/50 ${
+                <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-6 shadow-lg ${
                     isVip 
-                        ? 'bg-gradient-to-br from-purple-500 to-pink-600' 
-                        : 'bg-gradient-to-br from-blue-500 to-cyan-600'
+                        ? 'bg-gray-800' 
+                        : 'bg-green-600'
                 }`}>
                     {isVip ? (
                         <Crown className="h-10 w-10 text-white" />
@@ -124,11 +120,11 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                 <div className="text-center">
                     <Badge 
                         variant={isVip ? 'default' : 'secondary'}
-                        className="text-xl px-6 py-3 mb-3 font-bold animate-pulse"
+                        className="text-xl px-6 py-3 mb-3 font-bold bg-green-600 text-white"
                     >
                         كرسي {attendant.chair_number}
                     </Badge>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-gray-600">
                         {isVip ? 'مقعد VIP مميز' : 'مقعدك المخصص'}
                     </p>
                 </div>
@@ -145,18 +141,29 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
 
     return (
         <>
-            <Head title={`${attendant.full_name} - دعوة زفاف`} />
-            <div className="min-h-screen  from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:to-gray-800" dir="rtl">
+            <Head title={`${attendant.full_name} - أصداء السويداء`} />
+            <div className="min-h-screen bg-gray-50 dark:from-gray-900 dark:to-gray-800" dir="rtl">
                 {/* Header */}
                 <div className="bg-white dark:bg-gray-900 border-b shadow-sm">
                     <div className="max-w-4xl mx-auto px-4 py-6">
-                        <div className="text-center">
-                            <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                حدث السويداء
+                        <div className="text-center space-y-4">
+                            <div className="flex justify-center mb-4">
+                                <img 
+                                    src="/logo.svg" 
+                                    alt="أصداء السويداء" 
+                                    className="h-35 w-auto"
+                                />
+                            </div>
+                            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                                أصداء السويداء
                             </h1>
-                            <p className="text-xl text-muted-foreground mt-2">
+                            <p className="text-xl text-gray-600">
                                 معلومات الضيف
                             </p>
+                            <div className="inline-flex items-center gap-2 bg-green-50 text-green-800 px-4 py-2 rounded-full border">
+                                <Calendar className="h-4 w-4" />
+                                <span className="text-sm font-medium">يوم السبت 27 أيلول 2025 • 3:30 - 7:00 PM</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -166,64 +173,61 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                         {/* Main Profile Information */}
                         <div className="lg:col-span-2 space-y-6">
                             {/* Guest Details */}
-                            <Card className="relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full -translate-y-16 translate-x-16" />
-                                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br from-pink-400/20 to-orange-400/20 rounded-full translate-y-12 -translate-x-12" />
-                                
-                                <CardHeader className="relative z-10">
-                                    <CardTitle className="flex items-center gap-2 text-2xl">
-                                        <div className="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg">
+                            <Card className="shadow-lg">
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2 text-2xl text-gray-800">
+                                        <div className="p-2 bg-green-600 rounded-lg">
                                             <User className="h-6 w-6 text-white" />
                                         </div>
                                         معلومات الضيف
                                     </CardTitle>
                                 </CardHeader>
-                                <CardContent className="space-y-6 relative z-10">
+                                <CardContent className="space-y-6">
                                     <div className="text-center">
-                                        <div className="w-28 h-28 bg-gradient-to-br from-blue-500 via-purple-600 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg ring-4 ring-white/50 dark:ring-gray-800/50">
+                                        <div className="w-28 h-28 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                                             <User className="h-12 w-12 text-white" />
                                         </div>
-                                        <h2 className="text-3xl font-bold text-gray-900 dark:text-white bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+                                        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                                             {attendant.full_name}
                                         </h2>
-                                        <p className="text-muted-foreground mt-2">ضيف مميز في حدث السويداء</p>
+                                        <p className="text-gray-600 mt-2">ضيف مميز في أصداء السويداء</p>
                                     </div>
 
                                     <Separator className="my-6" />
 
                                     <div className="grid gap-6 md:grid-cols-2">
-                                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/20 p-4 rounded-lg">
-                                            <label className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2">
+                                        <div className="bg-gray-50 p-4 rounded-lg">
+                                            <label className="text-sm font-medium text-gray-700 flex items-center gap-2 mb-2">
                                                 <Phone className="h-4 w-4" />
                                                 رقم الهاتف
                                             </label>
                                             <div className="flex items-center gap-2">
-                                                <span className="font-semibold text-lg text-gray-900 dark:text-white">
+                                                <span className="font-semibold text-lg text-gray-900">
                                                     {attendant.phone_number}
                                                 </span>
                                             </div>
                                         </div>
-                                        <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/20 p-4 rounded-lg">
-                                            <label className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2">
+                                        <div className="bg-gray-50 p-4 rounded-lg">
+                                            <label className="text-sm font-medium text-gray-700 flex items-center gap-2 mb-2">
                                                 <Calendar className="h-4 w-4" />
                                                 تاريخ التسجيل
                                             </label>
                                             <div className="flex items-center gap-2">
-                                                <span className="font-semibold text-lg text-gray-900 dark:text-white">
-                                                    {new Date(attendant.created_at).toLocaleDateString()}
+                                                <span className="font-semibold text-lg text-gray-900">
+                                                    {new Date(attendant.created_at).toLocaleDateString('en-US')}
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
 
                                     {attendant.invitation_link && (
-                                        <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/20 p-4 rounded-lg">
-                                            <label className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2">
+                                        <div className="bg-blue-50 p-4 rounded-lg">
+                                            <label className="text-sm font-medium text-blue-700 flex items-center gap-2 mb-2">
                                                 <Users className="h-4 w-4" />
                                                 مدعو من قبل
                                             </label>
                                             <div className="flex items-center gap-2">
-                                                <span className="font-semibold text-lg text-gray-900 dark:text-white">
+                                                <span className="font-semibold text-lg text-blue-900">
                                                     {attendant.invitation_link.full_name}
                                                 </span>
                                             </div>
@@ -232,12 +236,39 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                                 </CardContent>
                             </Card>
 
+                            {/* Event Details */}
+                            <Card className="shadow-lg">
+                                <CardHeader className="bg-green-50">
+                                    <CardTitle className="flex items-center gap-2 text-green-800">
+                                        <MapPin className="h-5 w-5" />
+                                        تفاصيل الفعالية
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="pt-6">
+                                    <div className="grid gap-4">
+                                        <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                                            <Calendar className="h-5 w-5 text-green-600" />
+                                            <div>
+                                                <p className="font-bold text-green-900">يوم السبت 27 أيلول 2025</p>
+                                                <p className="text-sm text-green-700">3:30 PM - 7:00 PM</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                                            <MapPin className="h-5 w-5 text-gray-600" />
+                                            <div>
+                                                <p className="font-bold text-gray-900">المركز الثقافي بالسويداء</p>
+                                                <p className="text-sm text-gray-700">فعالية فنية ثقافية مدنية خيرية</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+
                             {/* Chair Assignment */}
-                            <Card className="relative overflow-hidden">
-                                <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-full -translate-x-8 -translate-y-8" />
-                                <CardHeader className="relative z-10">
-                                    <CardTitle className="flex items-center gap-2 text-xl">
-                                        <div className="p-2 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg">
+                            <Card className="shadow-lg">
+                                <CardHeader className="bg-blue-50">
+                                    <CardTitle className="flex items-center gap-2 text-xl text-blue-800">
+                                        <div className="p-2 bg-blue-600 rounded-lg">
                                             <Armchair className="h-5 w-5 text-white" />
                                         </div>
                                         ترتيب الجلوس
@@ -246,7 +277,7 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                                         الموقع المخصص للضيف في القاعة
                                     </CardDescription>
                                 </CardHeader>
-                                <CardContent className="relative z-10">
+                                <CardContent>
                                     {getChairDisplay()}
                                 </CardContent>
                             </Card>
@@ -255,26 +286,17 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                         {/* Status Sidebar */}
                         <div className="space-y-6">
                             {/* RSVP Status */}
-                            <Card className="relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-green-400/20 to-emerald-400/20 rounded-full -translate-y-8 translate-x-8" />
-                                <CardHeader className="relative z-10">
-                                    <CardTitle className="flex items-center gap-2">
-                                        <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg">
-                                            <TrendingUp className="h-5 w-5 text-white" />
+                            <Card className="shadow-lg">
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2 text-green-800">
+                                        <div className="p-2 bg-green-600 rounded-lg">
+                                            <CheckCircle className="h-5 w-5 text-white" />
                                         </div>
                                         حالة الرد
                                     </CardTitle>
                                 </CardHeader>
-                                <CardContent className="relative z-10">
-                                    <div className={`p-6 rounded-xl shadow-sm transition-all duration-300 hover:scale-105 ${
-                                        statusInfo.className.includes('green') 
-                                            ? 'hover:shadow-green-200/50' 
-                                            : statusInfo.className.includes('yellow')
-                                            ? 'hover:shadow-yellow-200/50'
-                                            : statusInfo.className.includes('red')
-                                            ? 'hover:shadow-red-200/50'
-                                            : 'hover:shadow-gray-200/50'
-                                    } ${statusInfo.className}`}>
+                                <CardContent>
+                                    <div className={`p-6 rounded-xl shadow-sm border ${statusInfo.className}`}>
                                         <div className="flex items-center gap-4 mb-3">
                                             <div className="p-3 rounded-full bg-white/80">
                                                 <StatusIcon className="h-8 w-8" />
@@ -284,7 +306,7 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                                         {attendant.attendance_status && (
                                             <p className="text-sm opacity-90 flex items-center gap-2">
                                                 <Clock className="h-4 w-4" />
-                                                آخر تحديث: {new Date(attendant.updated_at).toLocaleDateString('ar-SA')}
+                                                آخر تحديث: {new Date(attendant.updated_at).toLocaleDateString('en-US')}
                                             </p>
                                         )}
                                     </div>
@@ -292,25 +314,24 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                             </Card>
 
                             {/* Actual Attendance */}
-                            <Card className="relative overflow-hidden">
-                                <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full translate-y-8 -translate-x-8" />
-                                <CardHeader className="relative z-10">
-                                    <CardTitle className="flex items-center gap-2">
-                                        <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg">
+                            <Card className="shadow-lg">
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2 text-blue-800">
+                                        <div className="p-2 bg-blue-600 rounded-lg">
                                             <UserCheck className="h-5 w-5 text-white" />
                                         </div>
-                                        حضور الحدث
+                                        حضور الفعالية
                                     </CardTitle>
                                     <CardDescription>
                                         حالة الحضور الفعلية
                                     </CardDescription>
                                 </CardHeader>
-                                <CardContent className="space-y-4 relative z-10">
-                                    <div className={`p-6 rounded-xl shadow-sm transition-all duration-300 ${
+                                <CardContent className="space-y-4">
+                                    <div className={`p-6 rounded-xl shadow-sm border ${
                                         attendant.attended 
-                                            ? 'text-green-700 bg-gradient-to-br from-green-50 to-emerald-100 border-green-200 hover:shadow-green-200/50 hover:scale-105'
-                                            : 'text-gray-700 bg-gradient-to-br from-gray-50 to-gray-100 border-gray-200 hover:shadow-gray-200/50'
-                                    } border`}>
+                                            ? 'text-green-700 bg-green-50 border-green-200'
+                                            : 'text-gray-700 bg-gray-50 border-gray-200'
+                                    }`}>
                                         <div className="flex items-center gap-4">
                                             <div className={`p-3 rounded-full ${
                                                 attendant.attended 
@@ -340,26 +361,20 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                                             onClick={handleToggleAttended}
                                             disabled={processing}
                                             variant={attendant.attended ? "outline" : "default"}
-                                            className="w-full transition-all duration-300 hover:scale-105 relative overflow-hidden group"
+                                            className="w-full bg-green-600 hover:bg-green-700 text-white"
                                             size="lg"
                                         >
-                                            <div className={`absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ${
-                                                processing ? 'animate-pulse' : ''
-                                            }`} />
-                                            
-                                            <div className="relative z-10 flex items-center justify-center">
-                                                {processing ? (
-                                                    <>
-                                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-current mr-2" />
-                                                        جاري التحديث...
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <Shield className="h-5 w-5 ml-2 transition-transform duration-300 group-hover:scale-110" />
-                                                        تسجيل كـ {attendant.attended ? 'غير حاضر' : 'حاضر'}
-                                                    </>
-                                                )}
-                                            </div>
+                                            {processing ? (
+                                                <>
+                                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-current mr-2" />
+                                                    جاري التحديث...
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Shield className="h-5 w-5 ml-2" />
+                                                    تسجيل كـ {attendant.attended ? 'غير حاضر' : 'حاضر'}
+                                                </>
+                                            )}
                                         </Button>
                                     )}
                                 </CardContent>
@@ -369,10 +384,13 @@ export default function AttendantProfileShow({ attendant, isAuthenticated }: Pro
                 </div>
 
                 {/* Footer */}
-                <div className="bg-white dark:bg-gray-900 border-t mt-12">
+                <div className="bg-gray-100 border-t mt-12">
                     <div className="max-w-4xl mx-auto px-4 py-8 text-center">
-                        <p className="text-muted-foreground">
-                            لا نطيق الصبر للاحتفال معك!
+                        <p className="text-lg font-semibold text-gray-800 mb-2">
+                            لا نطيق الصبر للاحتفال معك في أصداء السويداء!
+                        </p>
+                        <p className="text-gray-700 italic">
+                            كن جزءاً من هذا الصدى معنا، وساعدنا بإيصال ثقافتنا للعالم أجمع
                         </p>
                     </div>
                 </div>
