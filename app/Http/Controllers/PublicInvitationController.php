@@ -6,7 +6,7 @@ use App\Http\Requests\StoreAttendantRequest;
 use App\Services\InvitationLinkService;
 use App\Services\AttendantService;
 use Inertia\Inertia;
-
+use App\Enums\VipStatus;
 class PublicInvitationController extends Controller
 {
     public function __construct(
@@ -46,7 +46,7 @@ class PublicInvitationController extends Controller
             $request->validated(),
             $invitationLink
         );
-        if($attendant->vip_status == 'vip'){ $isVip = true; } else { $isVip = false; }
+        if($invitationLink->default_vip_status == VipStatus::VIP){ $isVip = true; } else { $isVip = false; }
         $whatsappGroupRegular = 'https://chat.whatsapp.com/COJAErq4mXb8SufHwWZcZy?mode=ems_copy_t';
         $whatsappGroupVip = 'https://chat.whatsapp.com/HtWV5pcFyiFHF7Vd1799uV?mode=ems_copy_t';
         return Inertia::render('Invitation/Success', [
