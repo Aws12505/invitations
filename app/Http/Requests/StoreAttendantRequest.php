@@ -18,6 +18,7 @@ class StoreAttendantRequest extends FormRequest
             'father_name' => 'required|string|max:255', 
             'last_name' => 'required|string|max:255',
             'phone_number' => 'required|string|regex:/^09\d{8}$/',
+            'vip_status' => 'nullable|in:regular,vip',
         ];
     }
 
