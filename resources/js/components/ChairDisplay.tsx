@@ -19,7 +19,7 @@ export default function ChairDisplay({ chairNumber, size = 'md', showSection = f
         );
     }
 
-    const isVip = chairNumber <= 250;
+    const isVip = chairNumber <= 50;
     const iconSize = size === 'sm' ? 'h-3 w-3' : size === 'lg' ? 'h-5 w-5' : 'h-4 w-4';
     const badgeSize = size === 'sm' ? 'text-xs' : size === 'lg' ? 'text-sm' : 'text-xs';
 

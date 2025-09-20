@@ -193,7 +193,7 @@ export default function ChairAssignmentIndex({ attendants, statistics }: Props) 
             return <Badge variant="outline">No Chair</Badge>;
         }
 
-        const isVipSection = chairNumber <= 250;
+        const isVipSection = chairNumber <= 50;
         const isVipPerson = vipStatus === 'vip' || vipStatus === 'premium';
 
         return (
@@ -309,8 +309,8 @@ export default function ChairAssignmentIndex({ attendants, statistics }: Props) 
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="all">All Sections</SelectItem>
-                                        <SelectItem value="vip">VIP Section (1-250)</SelectItem>
-                                        <SelectItem value="regular">Regular Section (251-360)</SelectItem>
+                                        <SelectItem value="vip">VIP Section (1-50)</SelectItem>
+                                        <SelectItem value="regular">Regular Section (51-360)</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -503,7 +503,7 @@ export default function ChairAssignmentIndex({ attendants, statistics }: Props) 
                                 <SelectContent>
                                     {assignChairModal.availableChairs.map((chairNumber) => (
                                         <SelectItem key={chairNumber} value={chairNumber.toString()}>
-                                            Chair {chairNumber} ({chairNumber <= 250 ? 'VIP' : 'Regular'} Section)
+                                            Chair {chairNumber} ({chairNumber <= 50 ? 'VIP' : 'Regular'} Section)
                                         </SelectItem>
                                     ))}
                                 </SelectContent>

@@ -67,7 +67,7 @@ protected $appends = ['full_name', 'chair_section', 'qr_code_url'];
     {
         if (!$this->chair_number) return 'No Chair';
         
-        return $this->chair_number <= 250 ? 'VIP Section' : 'Regular Section';
+        return $this->chair_number <= 50 ? 'VIP Section' : 'Regular Section';
     }
 
         /**

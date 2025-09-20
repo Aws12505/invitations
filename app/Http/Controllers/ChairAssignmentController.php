@@ -57,8 +57,8 @@ class ChairAssignmentController extends Controller
             'attendant' => $attendant->load('invitationLink'),
             'availableChairs' => $allChairs,
             'attendantSection' => ($vipStatusString === 'vip' || $vipStatusString === 'premium') 
-                ? 'VIP (Chairs 1-250)' 
-                : 'Regular (Chairs 251-360)',
+                ? 'VIP (Chairs 1-50)' 
+                : 'Regular (Chairs 51-360)',
             'modalType' => $attendant->chair_number ? 'change' : 'assign'
         ]);
     }
@@ -96,7 +96,7 @@ class ChairAssignmentController extends Controller
         try {
             $this->chairService->assignSpecificChair($attendant, $request->chair_number);
             
-            return redirect()->route('chair-assignment.index')
+            return redirect()->route('attendants.index')
                 ->with('success', "Chair #{$request->chair_number} assigned to {$attendant->full_name} successfully");
         } catch (\InvalidArgumentException $e) {
             return back()->withErrors(['chair_number' => $e->getMessage()]);
@@ -121,7 +121,7 @@ class ChairAssignmentController extends Controller
 
         $this->chairService->switchChairs($attendant1, $attendant2);
 
-        return redirect()->route('chair-assignment.index')
+        return redirect()->route('attendants.index')
             ->with('success', "Chairs switched: {$attendant1->full_name} (#{$chair2}) ↔ {$attendant2->full_name} (#{$chair1})");
     }
 

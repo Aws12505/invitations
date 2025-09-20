@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Attendant } from '@/types/invitation';
-import { Head, Link, router } from '@inertiajs/react';
+import { Attendant, InvitationLink } from '@/types/invitation';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -44,7 +44,6 @@ import { toast } from 'sonner';
 import AttendantPagination from '@/components/AttendantPagination';
 
 const breadcrumbs: BreadcrumbItem[] = [
-
     {
         title: 'Attendants',
         href: '#',
@@ -82,16 +81,28 @@ interface Statistics {
     vip: number;
 }
 
+interface Filters {
+    search?: string;
+    attendance_status?: string;
+    vip_status?: string;
+    attended?: string;
+    invitation_link_id?: number;
+}
+
 interface Props {
     attendants: AttendantsData;
     statistics: Statistics;
+    filters: Filters;
+    invitationLinks: InvitationLink[];
 }
 
-export default function AttendantsIndex({ attendants, statistics }: Props) {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [statusFilter, setStatusFilter] = useState<string>('all');
-    const [vipFilter, setVipFilter] = useState<string>('all');
-    const [attendedFilter, setAttendedFilter] = useState<string>('all');
+export default function AttendantsIndex({ attendants, statistics, filters, invitationLinks }: Props) {
+    // Initialize state with current filters from server
+    const [searchTerm, setSearchTerm] = useState(filters.search || '');
+    const [statusFilter, setStatusFilter] = useState(filters.attendance_status || 'all');
+    const [vipFilter, setVipFilter] = useState(filters.vip_status || 'all');
+    const [attendedFilter, setAttendedFilter] = useState(filters.attended || 'all');
+    const [invitationLinkFilter, setInvitationLinkFilter] = useState(filters.invitation_link_id?.toString() || 'all');
     
     const [deleteModal, setDeleteModal] = useState<{
         open: boolean;
@@ -103,21 +114,63 @@ export default function AttendantsIndex({ attendants, statistics }: Props) {
         attendantName: '',
     });
 
-    // Apply filters to the current page data
-    const filteredAttendants = attendants.data.filter(attendant => {
-        const matchesSearch = 
-            attendant.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            attendant.phone_number.includes(searchTerm) ||
-            (attendant.invitation_link?.full_name || '').toLowerCase().includes(searchTerm.toLowerCase());
+    // Debounce search to avoid too many requests
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            handleFilterChange();
+        }, 300);
 
-        const matchesStatus = statusFilter === 'all' || attendant.attendance_status === statusFilter;
-        const matchesVip = vipFilter === 'all' || attendant.vip_status === vipFilter;
-        const matchesAttended = attendedFilter === 'all' || 
-            (attendedFilter === 'attended' && attendant.attended) ||
-            (attendedFilter === 'not_attended' && !attendant.attended);
+        return () => clearTimeout(timeoutId);
+    }, [searchTerm]);
 
-        return matchesSearch && matchesStatus && matchesVip && matchesAttended;
-    });
+    // Handle filter changes immediately for dropdowns
+    useEffect(() => {
+        handleFilterChange();
+    }, [statusFilter, vipFilter, attendedFilter, invitationLinkFilter]);
+
+    const handleFilterChange = () => {
+        const params = new URLSearchParams(window.location.search);
+        
+        // Update search params
+        if (searchTerm && searchTerm.trim()) {
+            params.set('search', searchTerm);
+        } else {
+            params.delete('search');
+        }
+        
+        if (statusFilter !== 'all') {
+            params.set('attendance_status', statusFilter);
+        } else {
+            params.delete('attendance_status');
+        }
+        
+        if (vipFilter !== 'all') {
+            params.set('vip_status', vipFilter);
+        } else {
+            params.delete('vip_status');
+        }
+        
+        if (attendedFilter !== 'all') {
+            params.set('attended', attendedFilter);
+        } else {
+            params.delete('attended');
+        }
+
+        if (invitationLinkFilter !== 'all') {
+            params.set('invitation_link_id', invitationLinkFilter);
+        } else {
+            params.delete('invitation_link_id');
+        }
+        
+        // Reset to page 1 when filters change
+        params.delete('page');
+        
+        // Navigate with new filters
+        router.get('/attendants', Object.fromEntries(params), {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    };
 
     const copyStatusUrl = (statusToken: string) => {
         const url = `${window.location.origin}/status/${statusToken}`;
@@ -159,19 +212,19 @@ export default function AttendantsIndex({ attendants, statistics }: Props) {
     };
 
     const toggleAttended = (id: number, currentStatus: boolean) => {
-    router.patch(`/attendants/${id}/toggle-attended`, {}, {
-        onSuccess: () => {
-            const newStatus = !currentStatus;
-            const message = newStatus 
-                ? 'Attendant marked as attended' 
-                : 'Attendant marked as not attended';
-            toast.success(message);
-        },
-        onError: (errors) => {
-            toast.error(errors.attended || 'Failed to update attendance status');
-        },
-    });
-};
+        router.patch(`/attendants/${id}/toggle-attended`, {}, {
+            onSuccess: () => {
+                const newStatus = !currentStatus;
+                const message = newStatus 
+                    ? 'Attendant marked as attended' 
+                    : 'Attendant marked as not attended';
+                toast.success(message);
+            },
+            onError: (errors) => {
+                toast.error(errors.attended || 'Failed to update attendance status');
+            },
+        });
+    };
 
     const getStatusBadge = (status: string | null) => {
         switch (status) {
@@ -187,27 +240,23 @@ export default function AttendantsIndex({ attendants, statistics }: Props) {
     };
 
     const exportData = () => {
-        // Basic CSV export functionality for filtered data
-        const csvContent = [
-            ['Name', 'Phone', 'VIP Status','Chair Assignments', 'Attendance Status', 'Attended', 'Invited By'].join(','),
-            ...filteredAttendants.map(attendant => [
-                attendant.full_name,
-                attendant.phone_number,
-                attendant.vip_status,
-                attendant.chair_number || 'No Chair Assigned',
-                attendant.attendance_status || 'No Response',
-                attendant.attended ? 'Yes' : 'No',
-                attendant.invitation_link?.full_name || ''
-            ].join(','))
-        ].join('\n');
+        // Export filtered data from server
+        const params = new URLSearchParams(window.location.search);
+        params.set('export', 'csv');
+        window.location.href = `/attendants?${params.toString()}`;
+    };
 
-        const blob = new Blob([csvContent], { type: 'text/csv' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'attendants.csv';
-        a.click();
-        window.URL.revokeObjectURL(url);
+    const clearFilters = () => {
+        setSearchTerm('');
+        setStatusFilter('all');
+        setVipFilter('all');
+        setAttendedFilter('all');
+        setInvitationLinkFilter('all');
+        
+        router.get('/attendants', {}, {
+            preserveState: true,
+            preserveScroll: true,
+        });
     };
 
     return (
@@ -282,13 +331,18 @@ export default function AttendantsIndex({ attendants, statistics }: Props) {
                 {/* Filters */}
                 <Card>
                     <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <Filter className="h-5 w-5" />
-                            Filters
-                        </CardTitle>
+                        <div className="flex items-center justify-between">
+                            <CardTitle className="flex items-center gap-2">
+                                <Filter className="h-5 w-5" />
+                                Filters
+                            </CardTitle>
+                            <Button variant="outline" size="sm" onClick={clearFilters}>
+                                Clear All
+                            </Button>
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="grid gap-4 md:grid-cols-4">
+                        <div className="grid gap-4 md:grid-cols-5">
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Search</label>
                                 <div className="relative">
@@ -312,6 +366,7 @@ export default function AttendantsIndex({ attendants, statistics }: Props) {
                                         <SelectItem value="coming">Coming</SelectItem>
                                         <SelectItem value="maybe">Maybe</SelectItem>
                                         <SelectItem value="not_coming">Not Coming</SelectItem>
+                                        <SelectItem value="no_response">No Response</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -342,9 +397,26 @@ export default function AttendantsIndex({ attendants, statistics }: Props) {
                                     </SelectContent>
                                 </Select>
                             </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Invited By</label>
+                                <Select value={invitationLinkFilter} onValueChange={setInvitationLinkFilter}>
+                                    <SelectTrigger>
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">All Inviters</SelectItem>
+                                        {invitationLinks.map((link) => (
+                                            <SelectItem key={link.id} value={link.id.toString()}>
+                                                {link.full_name} ({link.usage} attendants)
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
                         </div>
                         <div className="mt-4 text-sm text-muted-foreground">
-                            Showing {filteredAttendants.length} of {attendants.pagination.total} attendants (filtered from current page)
+                            Showing {attendants.pagination.from || 0} to {attendants.pagination.to || 0} of {attendants.pagination.total} attendants
+                            {Object.keys(filters).length > 0 && ' (filtered)'}
                         </div>
                     </CardContent>
                 </Card>
@@ -375,8 +447,8 @@ export default function AttendantsIndex({ attendants, statistics }: Props) {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {filteredAttendants.length > 0 ? (
-                                        filteredAttendants.map((attendant) => (
+                                    {attendants.data.length > 0 ? (
+                                        attendants.data.map((attendant) => (
                                             <TableRow key={attendant.id}>
                                                 <TableCell className="font-medium">
                                                     <div>
@@ -407,13 +479,13 @@ export default function AttendantsIndex({ attendants, statistics }: Props) {
                                                         {attendant.vip_status.toUpperCase()}
                                                     </Badge>
                                                 </TableCell>
-                                              <TableCell>
-    <ChairDisplay 
-        chairNumber={attendant.chair_number} 
-        size="sm" 
-        showSection={true} 
-    />
-</TableCell>
+                                                <TableCell>
+                                                    <ChairDisplay 
+                                                        chairNumber={attendant.chair_number} 
+                                                        size="sm" 
+                                                        showSection={true} 
+                                                    />
+                                                </TableCell>
                                                 <TableCell>
                                                     {getStatusBadge(attendant.attendance_status)}
                                                 </TableCell>
@@ -495,18 +567,18 @@ export default function AttendantsIndex({ attendants, statistics }: Props) {
                                                     </div>
                                                 </TableCell>
                                                 <TableCell className="text-center">
-    <QrCodeDisplay attendant={attendant} size="sm" />
-</TableCell>
+                                                    <QrCodeDisplay attendant={attendant} size="sm" />
+                                                </TableCell>
                                             </TableRow>
                                         ))
                                     ) : (
                                         <TableRow>
-                                            <TableCell colSpan={8} className="text-center py-8">
+                                            <TableCell colSpan={10} className="text-center py-8">
                                                 <div className="text-muted-foreground">
                                                     <Users className="h-8 w-8 mx-auto mb-2" />
                                                     <p>No attendants found</p>
                                                     <p className="text-sm">
-                                                        {searchTerm || statusFilter !== 'all' || vipFilter !== 'all' || attendedFilter !== 'all'
+                                                        {Object.keys(filters).length > 0
                                                             ? 'Try adjusting your filters'
                                                             : 'No attendants have registered yet'
                                                         }
@@ -518,7 +590,7 @@ export default function AttendantsIndex({ attendants, statistics }: Props) {
                                 </TableBody>
                             </Table>
                         </div>
-
+                        
                         {/* Pagination */}
                         <AttendantPagination data={attendants.pagination} />
                     </CardContent>

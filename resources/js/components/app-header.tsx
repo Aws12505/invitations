@@ -26,11 +26,11 @@ const mainNavItems: NavItem[] = [
         href: '/attendants',
         icon: Users,
     },
-    {
-    title: 'Chair Assignment',
-    href: '/chair-assignment',
-    icon: Armchair,
-    },
+    // {
+    // title: 'Chair Assignment',
+    // href: '/chair-assignment',
+    // icon: Armchair,
+    // },
 ];
 
 const rightNavItems: NavItem[] = [

@@ -43,11 +43,11 @@ export default function AssignModal({ attendant, availableChairs, attendantSecti
     };
 
     const handleCancel = () => {
-        router.get('/chair-assignment');
+        router.get('/attendants');
     };
 
     const getChairBadge = (chair: number) => {
-        const isVip = chair <= 250;
+        const isVip = chair <= 50;
         return (
             <div className="flex items-center gap-2">
                 {isVip ? (
@@ -134,12 +134,12 @@ export default function AssignModal({ attendant, availableChairs, attendantSecti
                                             {availableChairs.map((chair) => (
                                                 <SelectItem key={chair} value={chair.toString()}>
                                                     <div className="flex items-center gap-2">
-                                                        {chair <= 250 ? (
+                                                        {chair <= 50 ? (
                                                             <Crown className="h-3 w-3 text-purple-600" />
                                                         ) : (
                                                             <User className="h-3 w-3 text-blue-600" />
                                                         )}
-                                                        Chair {chair} ({chair <= 250 ? 'VIP' : 'Regular'} Section)
+                                                        Chair {chair} ({chair <= 50 ? 'VIP' : 'Regular'} Section)
                                                     </div>
                                                 </SelectItem>
                                             ))}

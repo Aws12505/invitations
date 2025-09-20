@@ -11,8 +11,8 @@ class ChairAssignmentService
     // Chair configuration
     const TOTAL_CHAIRS = 360;
     const VIP_CHAIRS_START = 1;
-    const VIP_CHAIRS_END = 250;
-    const REGULAR_CHAIRS_START = 251;
+    const VIP_CHAIRS_END = 50;
+    const REGULAR_CHAIRS_START = 51;
     const REGULAR_CHAIRS_END = 360;
 
     /**

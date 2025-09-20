@@ -62,7 +62,7 @@ export default function ChairAssignmentWidget({ attendant, showActions = true }:
             );
         }
 
-        const isVipSection = attendant.chair_number <= 250;
+        const isVipSection = attendant.chair_number <= 50;
         
         return (
             <div className="flex items-start gap-3">
@@ -87,7 +87,7 @@ export default function ChairAssignmentWidget({ attendant, showActions = true }:
                         </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                        {isVipSection ? 'Section (Chairs 1-250)' : 'Section (Chairs 251-360)'}
+                        {isVipSection ? 'Section (Chairs 1-50)' : 'Section (Chairs 51-360)'}
                     </p>
                     {attendant.invitation_link && (
                         <p className="text-xs text-muted-foreground mt-1">
@@ -140,7 +140,7 @@ export default function ChairAssignmentWidget({ attendant, showActions = true }:
                         <Plus className="h-3 w-3" />
                     </Link>
                 </Button>
-                <Button
+                {/* <Button
                     variant="outline"
                     size="sm"
                     asChild
@@ -149,7 +149,7 @@ export default function ChairAssignmentWidget({ attendant, showActions = true }:
                     <Link href={`/chair-assignment/${attendant.id}/switch`}>
                         <ArrowLeftRight className="h-3 w-3" />
                     </Link>
-                </Button>
+                </Button> */}
                 <AlertDialog open={removeDialogOpen} onOpenChange={setRemoveDialogOpen}>
                     <AlertDialogTrigger asChild>
                         <Button

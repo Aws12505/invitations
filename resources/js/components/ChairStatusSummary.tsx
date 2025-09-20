@@ -40,7 +40,7 @@ export default function ChairStatusSummary({ statistics }: Props) {
                     </div>
                     <Progress value={vipOccupancyPercentage} className="mt-2" />
                     <p className="text-xs text-muted-foreground mt-1">
-                        Chairs 1-250 • {Math.round(vipOccupancyPercentage)}% occupied
+                        Chairs 1-50 • {Math.round(vipOccupancyPercentage)}% occupied
                     </p>
                 </CardContent>
             </Card>
@@ -56,7 +56,7 @@ export default function ChairStatusSummary({ statistics }: Props) {
                     </div>
                     <Progress value={regularOccupancyPercentage} className="mt-2" />
                     <p className="text-xs text-muted-foreground mt-1">
-                        Chairs 251-360 • {Math.round(regularOccupancyPercentage)}% occupied
+                        Chairs 51-360 • {Math.round(regularOccupancyPercentage)}% occupied
                     </p>
                 </CardContent>
             </Card>

@@ -44,13 +44,13 @@ export default function SwitchModal({ attendant1, otherAttendants }: Props) {
     };
 
     const handleCancel = () => {
-        router.get('/chair-assignment');
+        router.get('/attendants');
     };
 
     const getChairDisplay = (attendant: Attendant) => {
         if (!attendant.chair_number) return null;
         
-        const isVip = attendant.chair_number <= 250;
+        const isVip = attendant.chair_number <= 50;
         return (
             <div className="flex items-center gap-2">
                 {isVip ? (
